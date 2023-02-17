@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled,{keyframes, css} from "styled-components";
+
 
 export const Container = styled.div`
     max-width: 700px;
@@ -21,6 +22,7 @@ export const Container = styled.div`
         }
     }
 `;
+
 export const Form = styled.form`
     margin-top: 30px;
     display: flex;
@@ -35,16 +37,74 @@ export const Form = styled.form`
         font-size: 17px;
     }
 `;
-export const SubmitButton = styled.button.attrs({
-    type: 'submit',
-})`
-    background-color: #0d2636;
-    border: 0;
-    border-radius: 4px;
-    margin-left: 10px;
-    padding: 0 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
+const animated = keyframes`
+ from{
+    transform: rotate(0deg);
+ }
+
+ to{
+    transform: rotate(360deg);
+ }
 `;
+
+export const SubmitButton = styled.button.attrs(props=>({
+    type: 'submit',
+    disabled:props.loading
+}))`
+        background-color: #0d2636;
+        border: 0;
+        border-radius: 4px;
+        margin-left: 10px;
+        padding: 0 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &[disabled]{
+            cursor: not-allowed;
+            opacity:0.5;
+        }
+
+        ${props => props.loading && 
+        css`
+            svg{
+                animation:${animated} 2s linear infinite;
+            }
+        `
+    }`;
+    export const List = styled.ul`
+    list-style-type:none;
+    margin-top:20px;
+
+    li{
+        padding: 15px 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        & + li{
+            border-top: 1px solid #eee
+        }
+
+        a{
+            color:#0d2636;
+            text-decoration:none;
+        }
+    }
+    `;
+
+    export const DeleteButton = styled.button.attrs({
+        type: 'button',
+    })`
+        background:transparent;
+        color:#0d2636;
+        border:none;
+        padding: 8px 7px;
+        outline:none;
+        border-radius: 4px;
+
+    `;
+
+
