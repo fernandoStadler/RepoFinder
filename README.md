@@ -1,4 +1,4 @@
-# RepoFinder2222
+# RepoFinder
 
 O RepoFinder é um buscador de repositórios do Github que também permite salvar seus repositórios favoritos.
 

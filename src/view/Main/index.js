@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useEffect } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars,FaTrash } from 'react-icons/fa'
 import { Container, Form, SubmitButton, List, DeleteButton } from './styled'
 
@@ -7,21 +7,49 @@ import api from '../../services/api'
 const Main = () => {
 
     const [newRepo, setNewRepo] = useState('')
-    const [repositorios, setRepositorios] = useState('')
+    const [repositorios, setRepositorios] = useState([])
     const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState(null)
+
+
+    //buscar
+
+    useCallback(() => {
+        const repoStorage = localStorage.getItem('repos')
+        if(repoStorage){
+            setRepositorios(JSON.parse(repoStorage));
+        }
+    },[])
+    //Salvar
+
+    useEffect(()=>{
+        localStorage.setItem('repos', JSON.stringify(repositorios))
+    },[repositorios]);
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
         const submit = async () => {
-            setLoading(true)
+            setLoading(true);
+            setAlert(null);
             try {
+
+                if(newRepo===""){
+                    throw new Error("A busca pelo repositório não pode estar vazia!")
+                }
+
                 const response = await api.get(`/repos/${newRepo}`)
+                const hasRepo = repositorios.find(repo => repo.name === newRepo);
+
+                if(hasRepo){
+                    throw new Error("Repositorio já consta na lista!");
+                }
                 const data = {
                     name: response.data.full_name
                 }
                 setRepositorios([...repositorios, data]);
                 setNewRepo('');
             } catch (error) {
+                setAlert(true)
                 console.log(error);
             } finally {
                 setLoading(false);
@@ -32,6 +60,7 @@ const Main = () => {
 
     const handleInputChange = (event) => {
         setNewRepo(event.target.value);
+        setAlert(null);
     }
 
  
@@ -49,7 +78,7 @@ const alerta =()=>{
         <Container>
             <FaGithub size={25} />
             <h1>Meus Repositórios</h1>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} error={alert}>
                 <input
                     type="text"
                     placeholder="adicionar repositorio"
@@ -66,7 +95,6 @@ const alerta =()=>{
                 </SubmitButton>
             </Form>
             <List>
-    
                 {Array.isArray(repositorios) && repositorios.map(repo=>(
                     <li key={repo.name}>
                         <span>

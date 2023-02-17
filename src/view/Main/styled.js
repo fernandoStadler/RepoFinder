@@ -1,4 +1,4 @@
-import styled,{keyframes, css} from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 
 export const Container = styled.div`
@@ -31,7 +31,7 @@ export const Form = styled.form`
 
     input{
         flex: 1;
-        border: 1px solid #ddd;
+        border: 1px solid ${props=>(props.error ?'#FF0000' : '#eee')};
         padding: 10px 15px;
         border-radius: 4px;
         font-size: 17px;
@@ -48,11 +48,11 @@ const animated = keyframes`
  }
 `;
 
-export const SubmitButton = styled.button.attrs(props=>({
+export const SubmitButton = styled.button.attrs(props => ({
     type: 'submit',
-    disabled:props.loading
+    disabled: props.loading,
 }))`
-        background-color: #0d2636;
+        background: #0d2636;
         border: 0;
         border-radius: 4px;
         margin-left: 10px;
@@ -66,14 +66,16 @@ export const SubmitButton = styled.button.attrs(props=>({
             opacity:0.5;
         }
 
-        ${props => props.loading && 
+        ${props => props.loading &&
         css`
             svg{
                 animation:${animated} 2s linear infinite;
             }
         `
-    }`;
-    export const List = styled.ul`
+    }
+    `;
+
+export const List = styled.ul`
     list-style-type:none;
     margin-top:20px;
 
@@ -95,9 +97,9 @@ export const SubmitButton = styled.button.attrs(props=>({
     }
     `;
 
-    export const DeleteButton = styled.button.attrs({
-        type: 'button',
-    })`
+export const DeleteButton = styled.button.attrs({
+    type: 'button',
+})`
         background:transparent;
         color:#0d2636;
         border:none;
@@ -106,5 +108,4 @@ export const SubmitButton = styled.button.attrs(props=>({
         border-radius: 4px;
 
     `;
-
 
