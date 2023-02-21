@@ -1,6 +1,7 @@
 import React, { useState, useCallback,useEffect } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars,FaTrash } from 'react-icons/fa'
 import { Container, Form, SubmitButton, List, DeleteButton } from './styled'
+import {Link} from 'react-router-dom'
 
 import api from '../../services/api'
 
@@ -14,12 +15,14 @@ const Main = () => {
 
     //buscar
 
-    useCallback(() => {
+  
+
+    useEffect(() => {
         const repoStorage = localStorage.getItem('repos')
-        if(repoStorage){
-            setRepositorios(JSON.parse(repoStorage));
+        if (repoStorage) {
+            setRepositorios(JSON.parse(repoStorage))
         }
-    },[])
+    }, [])
     //Salvar
 
     useEffect(()=>{
@@ -103,9 +106,9 @@ const alerta =()=>{
                             </DeleteButton>
                             {repo.name}
                         </span>
-                        <a href="#">
+                        <Link to={`/repositorio/${encodeURIComponent(repo.name)}`}>
                             <FaBars size={20}/>
-                        </a> 
+                        </Link> 
                     </li>
                 ))}
             </List>
