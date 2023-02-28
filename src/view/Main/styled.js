@@ -50,7 +50,7 @@ const animated = keyframes`
 
 export const SubmitButton = styled.button.attrs(props => ({
     type: 'submit',
-    disabled: props.loading,
+    disabled: props.loading
 }))`
         background: #0d2636;
         border: 0;
@@ -108,4 +108,5 @@ export const DeleteButton = styled.button.attrs({
         border-radius: 4px;
 
     `;
+
 

@@ -12,11 +12,7 @@ const Main = () => {
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(null)
 
-
     //buscar
-
-  
-
     useEffect(() => {
         const repoStorage = localStorage.getItem('repos')
         if (repoStorage) {
@@ -73,10 +69,6 @@ const handleDelete = useCallback ((repo)=>{
     console.log(repositorios)
 },[repositorios]);
 
-const alerta =()=>{
-    alert("Oi")
-}
-
     return (
         <Container>
             <FaGithub size={25} />
@@ -110,9 +102,12 @@ const alerta =()=>{
                             <FaBars size={20}/>
                         </Link> 
                     </li>
+                    
                 ))}
             </List>
         </Container>
+        
+        
     );
 }
 export default Main;
