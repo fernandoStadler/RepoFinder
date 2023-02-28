@@ -2,7 +2,7 @@ import React , {useState, useEffect}from "react";
 
 import { FaArrowCircleLeft } from 'react-icons/fa'
 
-import { Container,Owner,Loading,BackButton } from "./styled";
+import { Container,Owner,Loading,BackButton,IssuesList,Info } from "./styled";
 
 import api from '../../services/api';
 
@@ -43,7 +43,6 @@ const [loading, setLoading] = useState(true)
         <Container>
             <BackButton to={'/'}>
             <FaArrowCircleLeft size={25}/>
-
             </BackButton>
             <Owner>
                 <img 
@@ -53,8 +52,27 @@ const [loading, setLoading] = useState(true)
                 <h1>{repositorio.name}</h1>
                 <p>{repositorio.description}</p>
             </Owner>
+            <IssuesList>
+                {issues.length<=0?
+                <Info>
+                    <span>Este repostorio não possui Issues a serem carregadas</span> 
+                </Info>
+                : issues.map(issue=>
+                <li key={String(issue.id)}>
+                    <img src={issue.user.avatar_url} alt={issue.user.login} />
+                    <div>
+                        <strong>
+                            <a href={issue.html_url}>{issue.title}  </a>
+                            {issue.labels.map(label=>(
+                                <span key={String(label.id)}>{label.name}</span>
+                            ))}
+                        </strong>
+                        <p>{issue.user.login}</p>
+                    </div>
+                </li>
+                )}
+            </IssuesList>
         </Container>
     );
 }
-
 export default Repositorio
